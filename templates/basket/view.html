@@ -1,0 +1,27 @@
+{%  extends 'base.html' %}
+
+{% block content %}
+
+{% if empty %}
+
+{{ empty_messsage }}
+
+{% else %}
+
+Item	Price		Qty
+Total: {{ basket.total }}
+
+{% for item in basket.basketitem_set.all %}
+{{ item.product }} {% if item.variations.all %}
+{% for subitem in item.variations.all %}
+{{ subitem.category|capfirst }} : {{ subitem.title|capfirst }}
+{% endfor %}
+{% endif %}
+{{ item.product.price }}
+{{ item.quantity }}
+<a href = '{% url "remove_from_cart" item.id %}'>Remove</a>
+{% endfor %}
+<br />
+<a href = '{% url "checkout" %}'>Checkout</a>
+{% endif %}
+{% endblock %}
